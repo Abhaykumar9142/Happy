@@ -9,12 +9,27 @@ document.addEventListener('mousemove', (event) => {
 });
 
 const musicBtn = $('#musicBtn');
-musicBtn?.addEventListener('click', () => {
-  musicBtn.classList.toggle('playing');
-  musicBtn.textContent = musicBtn.classList.contains('playing') ? '♫' : '♪';
+const bgMusic = $('#bgMusic');
+
+musicBtn?.addEventListener('click', async () => {
+  if (!bgMusic) return;
+
+  if (bgMusic.paused) {
+    try {
+      await bgMusic.play();
+      musicBtn.classList.add('playing');
+      musicBtn.textContent = '♫';
+    } catch (error) {
+      console.log('Music could not start:', error);
+    }
+  } else {
+    bgMusic.pause();
+    musicBtn.classList.remove('playing');
+    musicBtn.textContent = '♪';
+  }
 });
 
-const birthdayDate = new Date('2027-05-24T00:00:00').getTime();
+const birthdayDate = new Date('2026-08-27T00:00:00').getTime();
 function updateCountdown() {
   const countdown = $('#countdown');
   if (!countdown) return;
